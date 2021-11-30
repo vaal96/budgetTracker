@@ -26,7 +26,8 @@ request.onerror = function(event) {
 };
 
 function saveRecord(record) {
-  
+  // TODO: this function should save a transaction object to indexedDB so that
+  // it can be synced with the database when the user goes back online.
   const transaction = db.transaction(['pending'], 'readwrite');
   const pending = transaction.objectStore('pending');
 
@@ -36,17 +37,19 @@ function saveRecord(record) {
 }
 
 function checkDatabase() {
-  
+  // TODO: this function should check for any saved transactions and post them
+  // all to the database. Delete the transactions from IndexedDB if the post
+  // request is successful.
   const transaction = db.transaction(['pending'], 'readwrite');
   const pending = transaction.objectStore('pending');
 
   const getAll = pending.getAll();
   getAll.onsuccess = async () => {
     if (getAll.result.length === 0) {
-     
+      // no items to post to backend. end function.
       return;
     }
-    
+    // post the transaction from indexedDB to the database
     const response = await fetch("/api/transaction/bulk", {
       method: "POST",
       body: JSON.stringify(getAll.result),
@@ -55,7 +58,7 @@ function checkDatabase() {
         "Content-Type": "application/json",
       },
     });
-    
+    // result contains the newly added items;
     const dbTransactions = await response.json();
     if (dbTransactions.length > 0) {
       const transaction = db.transaction(['pending'], 'readwrite');
@@ -66,4 +69,5 @@ function checkDatabase() {
   };
 }
 
+// listen for app coming back online
 window.addEventListener('online', checkDatabase);
