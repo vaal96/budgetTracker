@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "../../react-portfolio"
+		},
+		{
+			"path": "../../workout-tracker"
+		},
+		{
+			"path": ".."
+		}
+	],
+	"settings": {}
+}
