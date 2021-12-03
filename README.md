@@ -7,7 +7,6 @@
 - Usage.
 - License.
 - Devolper.
-
 ## Project Requirements
 
 - [x] Budget App without an internet connection
